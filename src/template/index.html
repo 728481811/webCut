@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="ode_modules/jquery/dist/jquery.min.js"></script>
+        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+
+        <style>
+            .c-text {
+                float: left;
+                margin-right: 10px
+            }
+            .row {
+                width: 80%;
+                margin: 300px auto 0;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="input-group">
+                    <div class="input-group-btn">
+                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><div class="c-text">http://</div><span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <li><a href="">http://</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="">https://</a></li>
+                        </ul>
+                    </div><!-- /btn-group -->
+                    <input type="text" class="form-control" aria-label="...">
+                </div><!-- /input-group -->
+            </div><!-- /.col-lg-6 -->
+            <div class="col-lg-1">
+                <button type="button" class="btn btn-success">开始截图</button>
+            </div>
+        </div>
+    </body>
+    <script>
+        $('.dropdown-menu li a').bind('click', function() {
+            var option = $(this).html();
+            $('.c-text').html(option)
+        })
+    </script>
+</html>

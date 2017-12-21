@@ -17,6 +17,12 @@
   },
   "homepage": "https://github.com/728481811/webCut#readme",
   "devDependencies": {
+    "chalk": "^2.3.0",
     "puppeteer": "^0.13.0"
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.7",
+    "handlebars": "^4.0.11",
+    "jquery": "^3.2.1"
   }
 }
