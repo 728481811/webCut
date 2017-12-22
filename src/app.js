@@ -7,10 +7,14 @@ const handlebars = require('handlebars');
 const tplPath = path.join(__dirname, './template/index.html');
 const mime = require('./js/mime');
 const source = fs.readFileSync(tplPath);
-const server =  http.createServer((req, res) => {
+const promisify = require('util').promisify;
+const stat = promisify(fs.stat);
+const server =  http.createServer(async (req, res) => {
    try {
+        
         const url = req.url;
         const filePath = path.join(process.cwd(), url);
+        const stats = await stat(filePath);
         res.statusCode = 200;
         const contentType = mime(filePath);
         if(contentType[1] === undefined) {
@@ -22,14 +26,11 @@ const server =  http.createServer((req, res) => {
             rs.pipe(res);
         }
    } catch(err) {
-        console.log(1)
         res.statusCode = 404;
         res.setHeader('Content-Type', 'text/html');
-        res.end(1);
+        res.end();
        
    }
-    
-    
 });
 server.listen(conf.port, () => { 
 	const addr = `http://127.0.0.1:${conf.port}`;
