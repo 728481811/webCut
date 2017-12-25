@@ -4,9 +4,9 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="node_modules/jquery/dist/jquery.min.js"></script>
-        <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-        <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+        <script src="../../node_modules/jquery/dist/jquery.min.js"></script>
+        <script src="../../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 
         <style>
             body {
@@ -24,9 +24,33 @@
                 margin: 300px auto 0;
                 text-align: center;
             }
+            .loading-bg {
+                height: 100%;
+                width: 100%;
+                background: rgba(0,0,0,0.7);
+                position: fixed;
+                top: 0;
+                left: 0;
+                overflow-y: scroll;
+                z-index: 100;
+                display: none
+            }
+            .ouro {
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                font-size: 40px;
+                color: #fff;
+                margin-left: -100px
+            }
         </style>
     </head>
     <body>
+        <div class="loading-bg">
+            <div class="ouro">
+                正在截图...
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class="input-group">
@@ -42,14 +66,49 @@
                 </div><!-- /input-group -->
             </div><!-- /.col-lg-6 -->
             <div class="col-lg-1">
-                <button type="button" class="btn btn-success">开始截图</button>
+                <button type="button" class="btn startCut btn-success">开始截图</button>
             </div>
         </div>
     </body>
     <script>
+        var canClick = false;
+        $('.loading-bg').click(function() {
+            if(canClick) {
+                $('.loading-bg').hide();
+                var string = `<div class="ouro">正在截图...</div>`
+                $('.loading-bg').html(string);
+                canClick = false;
+            }
+        })
         $('.dropdown-menu li a').bind('click', function() {
             var option = $(this).html();
             $('.c-text').html(option)
+        })
+        $('.startCut').click(function() {
+            var address = $('.c-text').html() + $('.form-control').val();
+            var reg = /((http|https):\/\/([\w\-]+\.)+[\w\-]+(\/[\w\u4e00-\u9fa5\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/ig
+            if(reg.test(address)) {
+                $('.loading-bg').fadeIn();
+                $.ajax({
+                    type: "GET",
+                    url: '/',
+                    data: {
+                        url: address
+                    },
+                    success: function(data) {
+                        if(data.code == 0) {
+                            var str = `<img src="${data.picUrl}" style='width:1000px;margin-left: -500px;position:absolute;left:50%'>`
+                            $('.loading-bg').html(str);
+                            
+                        } else {
+                            $('.loading-bg').html('<div class="ouro">您输入的网址有误!</div>');
+                        }
+                        canClick = true;
+                    }
+                })
+            } else {
+                alert('请输入正确的网址!')
+            }  
         })
     </script>
 </html>

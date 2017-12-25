@@ -1,23 +1,25 @@
 const puppeteer = require('puppeteer');
-const {screenShot} = require('./config/default')
+const {screenShot} = require('../config/default')
 const fs = require('fs');
-(async () => {
+module.exports = async (url) => {
     try {
         if(!fs.existsSync(screenShot)) {
             fs.mkdirSync(screenShot)
         }
-        const host = 'http://m.webitao.com'.match(/[a-z]+\.([\w-]+)/);
+        const host = url.match(/[a-z]+\.([\w-]+)/);
         const browser = await puppeteer.launch();
         const page = await browser.newPage();
-        await page.goto('http://m.webitao.com');
+        await page.goto(url);
         await page.setViewport({
-            height: 6000,
+            height: 2000,
             width: 1920
         });
-        await page.screenshot({path: `${screenShot}/${host[1]}_${Date.now()}.jpg`});
+        const  time = Date.now();
+        await page.screenshot({path: `${screenShot}/${host[1]}_${time}.jpg`});
         await browser.close();
+        return `webCut/${host[1]}_${time}.jpg`
     } catch(err) {
+        return 'pathErr'
         console.log(err)
     }
-    
-})();
+}
