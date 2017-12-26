@@ -86,6 +86,7 @@
         })
         $('.startCut').click(function() {
             var address = $('.c-text').html() + $('.form-control').val();
+            console.log(address)
             var reg = /((http|https):\/\/([\w\-]+\.)+[\w\-]+(\/[\w\u4e00-\u9fa5\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/ig
             if(reg.test(address)) {
                 $('.loading-bg').fadeIn();
@@ -101,13 +102,13 @@
                             $('.loading-bg').html(str);
                             
                         } else {
-                            $('.loading-bg').html('<div class="ouro">您输入的网址有误!</div>');
+                            $('.loading-bg').html('<div class="ouro">请输入可访问的URL!</div>');
                         }
                         canClick = true;
                     }
                 })
             } else {
-                alert('请输入正确的网址!')
+                alert('请输入正确的URL!')
             }  
         })
     </script>

@@ -7,7 +7,7 @@ module.exports = async (url) => {
             fs.mkdirSync(screenShot)
         }
         const host = url.match(/[a-z]+\.([\w-]+)/);
-        const browser = await puppeteer.launch();
+        const browser = await puppeteer.launch({args: ['--no-sandbox', '--disable-setuid-sandbox']});
         const page = await browser.newPage();
         await page.goto(url);
         await page.setViewport({
@@ -19,7 +19,8 @@ module.exports = async (url) => {
         await browser.close();
         return `webCut/${host[1]}_${time}.jpg`
     } catch(err) {
-        return 'pathErr'
         console.log(err)
+        return 'pathErr'
+        
     }
 }

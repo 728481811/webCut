@@ -13,6 +13,7 @@ module.exports = async function(req, res){
     try {
         const q = req.url;
         const ht = url.parse(q, true).query.url
+        console.log(ht)
         if(ht) {    
             const url = await getPicture(ht);
             let rs = {
